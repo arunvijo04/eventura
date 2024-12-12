@@ -1,42 +1,22 @@
-// Import the functions you need from the SDKs
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore"; // Firestore for database
-import { getAuth } from "firebase/auth"; // Firebase Authentication
-import { getAnalytics, isSupported } from "firebase/analytics"; // Firebase Analytics
-import { getStorage } from "firebase/storage"; // Firebase Storage
+import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
-// Firebase configuration
+// Your Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyB_UsVEfabYCILNaMYIIsMHUHuG_mDpU1Q",
-  authDomain: "interlink-c5726.firebaseapp.com",
-  projectId: "interlink-c5726",
-  storageBucket: "interlink-c5726.appspot.com", // Fixed `app` typo
-  messagingSenderId: "365111726061",
-  appId: "1:365111726061:web:4467354fc50f6e8b06e1e4",
-  measurementId: "G-1VYP18C98G"
+  apiKey: "AIzaSyDviBBrXIAsP7AiL7J4MoqF8iyouyOvVtg",
+  authDomain: "interlink-e50ad.firebaseapp.com",
+  projectId: "interlink-e50ad",
+  storageBucket: "interlink-e50ad.firebasestorage.app",
+  messagingSenderId: "809727957473",
+  appId: "1:809727957473:web:141ba1ff8baa992ea7daa0",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore
-const db = getFirestore(app);
+// Firestore
+export const db = getFirestore(app);
 
-// Initialize Authentication
-const auth = getAuth(app);
-
-// Initialize Storage
-const storage = getStorage(app);
-
-// Initialize Analytics (only if supported)
-let analytics;
-isSupported().then((supported) => {
-  if (supported) {
-    analytics = getAnalytics(app);
-  } else {
-    console.warn("Analytics not supported in this environment.");
-  }
-});
-
-// Export initialized services
-export { app, db, auth, storage, analytics };
+// Firebase Authentication
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();

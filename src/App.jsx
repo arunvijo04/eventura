@@ -1,24 +1,36 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import { useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase"; // Import Firebase auth
 import Events from "./components/Events";
-import AddEvent from "./components/AddEvent";
 import EventDetails from "./components/EventDetails";
-import Admin from "./components/Admin";
+import Admin from "./components/Admin"; // Import Admin component
+import Login from "./components/Login"; // Import Login component
+import Navbar from "./components/Navbar"; // Import Navbar component
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser); // Update user state based on auth state
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, []);
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
-        <header className="p-6 bg-blue-500 text-white text-center">
-          <h1 className="text-2xl font-bold">E-Management</h1>
-        </header>
+        {/* Pass user to Navbar */}
+        <Navbar user={user} />
+
         <main className="p-6">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
             <Route path="/events" element={<Events />} />
-            <Route path="/add-event" element={<AddEvent />} />
             <Route path="/events/:id" element={<EventDetails />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin" element={<Admin />} /> {/* Admin route */}
           </Routes>
         </main>
       </div>
