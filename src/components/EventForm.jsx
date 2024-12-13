@@ -43,6 +43,7 @@ const EventForm = () => {
       await addDoc(collection(db, "events"), {
         ...event,
         participants: parseInt(event.participants, 10), // Ensure numeric value
+        participantsList: {}, // Initialize empty participant list
       });
       alert("Event added successfully!");
       setEvent({
@@ -65,7 +66,7 @@ const EventForm = () => {
 
   return (
     <form
-      className="p-6 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white rounded shadow-md"
+      className="p-6 bg-white text-black rounded shadow-md"
       onSubmit={handleSubmit}
     >
       <h2 className="text-xl font-bold mb-4">Add New Event</h2>

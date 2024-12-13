@@ -7,6 +7,7 @@ import EventDetails from "./components/EventDetails";
 import Admin from "./components/Admin";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import ParticipantDetails from './components/ParticipantDetails'
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/events" element={<Events />} />
             <Route path="/events/:id" element={<EventDetails />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/:id" element={<ParticipantDetails />} />
           </Routes>
         </main>
       </div>

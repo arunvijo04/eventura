@@ -5,7 +5,7 @@ import { db } from "../firebase";
 import QRCode from "react-qr-code";
 import { auth } from "../firebase";
 import { sendEmail } from "../utils/sendMail";
-import bgImage from "../assets/bg.jpg"; 
+import bgImage from "../assets/bg.jpg";
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -21,9 +21,15 @@ const EventDetails = () => {
       const docRef = doc(db, "events", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setEvent(docSnap.data());
+        const data = docSnap.data();
+        setEvent(data);
+
+        // Check if user is already registered
+        if (data.participantsList && data.participantsList[auth.currentUser?.uid]) {
+          setIsRegistered(true);
+        }
       } else {
-        console.log("No such document!");
+        console.error("No such document!");
       }
     };
 
@@ -53,7 +59,7 @@ const EventDetails = () => {
         date: event.date,
         time: event.time,
         location: event.location,
-        description: event.description,
+        userName: user.displayName || user.email,
       };
       setQrCode(JSON.stringify(qrData));
 
@@ -68,30 +74,27 @@ const EventDetails = () => {
   };
 
   const downloadQRCode = () => {
-    const svg = document.querySelector("svg"); // Select the QRCode SVG element
+    const svg = document.querySelector("svg");
     const svgData = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     const img = new Image();
-  
-    // Set canvas size based on SVG dimensions
+
     canvas.width = svg.getBoundingClientRect().width;
     canvas.height = svg.getBoundingClientRect().height;
-  
+
     img.onload = () => {
       ctx.drawImage(img, 0, 0);
       const pngFile = canvas.toDataURL("image/png");
-  
+
       const link = document.createElement("a");
       link.href = pngFile;
       link.download = `${event.name}_QRCode.png`;
       link.click();
     };
-  
-    // Convert SVG to Base64 URL and set as image source
+
     img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
   };
-  
 
   if (!event) return <p>Loading...</p>;
 
@@ -99,20 +102,17 @@ const EventDetails = () => {
     <div
       className="min-h-screen bg-cover bg-center bg-gray-900 bg-opacity-80"
       style={{
-        backgroundImage: `url(${bgImage})`, // Adjust path if necessary
+        backgroundImage: `url(${bgImage})`,
         backgroundBlendMode: "overlay",
       }}
     >
       <div className="max-w-4xl mx-auto p-6 bg-white bg-opacity-90 rounded shadow-md mt-10">
         <div className="flex flex-col md:flex-row">
-          {/* Event Image */}
           <img
             src={event.imageLink}
             alt={event.name}
             className="w-full md:w-1/2 rounded-lg object-cover shadow-md"
           />
-
-          {/* Event Details */}
           <div className="flex-1 ml-0 md:ml-8 mt-6 md:mt-0">
             <h2 className="text-3xl font-bold mb-4">{event.name}</h2>
             <p className="text-gray-500">
@@ -126,8 +126,6 @@ const EventDetails = () => {
             <p className="mt-4 font-bold">
               Participants Left: <span className="text-blue-500">{event.participants}</span>
             </p>
-
-            {/* Register Button */}
             {user && !isRegistered && event.participants > 0 && (
               <button
                 onClick={handleRegister}
@@ -138,8 +136,6 @@ const EventDetails = () => {
             )}
           </div>
         </div>
-
-        {/* QR Code Section */}
         {qrCode && (
           <div className="mt-10 text-center">
             <h3 className="text-2xl font-bold mb-4">Your QR Code</h3>
