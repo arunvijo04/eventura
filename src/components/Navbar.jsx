@@ -24,53 +24,57 @@ const Navbar = ({ user }) => {
   };
 
   return (
-    <nav className="bg-white px-6 py-4 flex justify-between items-center shadow-md" style={{ fontFamily: 'Poppins, sans-serif' }}>
-      <h1 className="text-2xl font-bold text-blue-600">Eventura</h1>
+    <nav
+      className="bg-white px-4 py-3 md:px-6 md:py-4 flex flex-wrap justify-between items-center shadow-md"
+      style={{ fontFamily: 'Poppins, sans-serif' }}
+    >
+      <h1 className="text-xl md:text-2xl font-bold text-blue-600">Eventura</h1>
 
-      {!user ? (
-        <div className="space-x-6">
-          <Link
-            to="/"
-            className="text-lg text-blue-600 hover:text-blue-800 font-semibold transition duration-300"
-          >
-            Login
-          </Link>
-          <Link
-            to="/admin"
-            className="text-lg text-blue-600 hover:text-blue-800 font-semibold transition duration-300"
-          >
-            Admin
-          </Link>
-        </div>
-      ) : isAdminPage ? (
-        // Show only Logout link on /admin page
-        <button
-          onClick={handleLogout}
-          className="text-lg text-red-600 hover:text-blue-800 font-semibold transition duration-300"
-        >
-          Logout
-        </button>
-      ) : (
-        <div className="flex items-center space-x-4">
-          <img
-            src={user.photoURL || "https://via.placeholder.com/40"} // Display user's profile image
-            alt="User Profile"
-            className="w-10 h-10 rounded-full object-cover"
-          />
-          <span
-            onClick={handleUsernameClick} // Trigger navigation to Profile page
-            className="text-lg font-semibold text-blue-600 cursor-pointer hover:text-blue-800"
-          >
-            {user.displayName || user.email}
-          </span>
+      <div className="flex items-center space-x-4 md:space-x-6">
+        {!user ? (
+          <>
+            <Link
+              to="/"
+              className="text-base md:text-lg text-blue-600 hover:text-blue-800 font-semibold transition duration-300"
+            >
+              Login
+            </Link>
+            <Link
+              to="/admin"
+              className="text-base md:text-lg text-blue-600 hover:text-blue-800 font-semibold transition duration-300"
+            >
+              Admin
+            </Link>
+          </>
+        ) : isAdminPage ? (
           <button
             onClick={handleLogout}
-            className="text-lg text-red-600 hover:text-blue-800 font-semibold transition duration-300"
+            className="text-base md:text-lg text-red-600 hover:text-blue-800 font-semibold transition duration-300"
           >
             Logout
           </button>
-        </div>
-      )}
+        ) : (
+          <div className="flex items-center space-x-4">
+            <img
+              src={user.photoURL || "https://via.placeholder.com/40"} // Display user's profile image
+              alt="User Profile"
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
+            />
+            <span
+              onClick={handleUsernameClick} // Trigger navigation to Profile page
+              className="text-base md:text-lg font-semibold text-blue-600 cursor-pointer hover:text-blue-800"
+            >
+              {user.displayName || user.email}
+            </span>
+            <button
+              onClick={handleLogout}
+              className="text-base md:text-lg text-red-600 hover:text-blue-800 font-semibold transition duration-300"
+            >
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
     </nav>
   );
 };
