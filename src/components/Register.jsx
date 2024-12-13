@@ -5,7 +5,7 @@ import { auth, db } from "../firebase";
 import { setDoc, doc } from "firebase/firestore";
 import bgImage from "../assets/bg.jpg"; // Background image
 
-const Signup = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState("");
@@ -95,4 +95,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Register;
