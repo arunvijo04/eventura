@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        // Adding Poppins font to Tailwind's theme
+        poppins: ['Poppins', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
-}
+};

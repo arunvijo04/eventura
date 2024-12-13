@@ -1,8 +1,8 @@
-import React, { useState } from "react"; // Import useState from React
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../firebase"; // Import Firebase auth and provider
-import bgImage from "../assets/bg.jpg"; // Import background image
+import { auth, googleProvider } from "../firebase"; // Firebase auth and Google provider
+import bgImage from "../assets/bg.jpg"; // Background image for the login page
 
 const Login = () => {
   const [email, setEmail] = useState("");
