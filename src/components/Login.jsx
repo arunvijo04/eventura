@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react"; // Import useState from React
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../firebase"; // Import auth and provider
-import { useNavigate } from "react-router-dom"; // For navigation after login
+import { auth, googleProvider } from "../firebase"; // Import Firebase auth and provider
+import bgImage from "../assets/bg.jpg"; // Import background image
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ const Login = () => {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/events"); // Navigate to events page after successful login
+      navigate("/events");
     } catch (error) {
       setError("Invalid email or password.");
     } finally {
@@ -26,19 +27,20 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      navigate("/events"); // Navigate after successful login
+      navigate("/events");
     } catch (error) {
       setError("Failed to sign in with Google.");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div
+      className="flex items-center justify-center min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <div className="bg-white p-6 rounded-lg shadow-md w-80">
         <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
-        
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        
         <form onSubmit={handleEmailLogin}>
           <div className="mb-4">
             <label className="block text-sm font-semibold">Email</label>
@@ -50,7 +52,6 @@ const Login = () => {
               required
             />
           </div>
-          
           <div className="mb-4">
             <label className="block text-sm font-semibold">Password</label>
             <input
@@ -61,7 +62,6 @@ const Login = () => {
               required
             />
           </div>
-          
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
@@ -70,7 +70,6 @@ const Login = () => {
             {loading ? "Logging in..." : "Login with Email"}
           </button>
         </form>
-
         <div className="mt-4 text-center">
           <button
             onClick={handleGoogleLogin}
@@ -79,7 +78,6 @@ const Login = () => {
             Login with Google
           </button>
         </div>
-
         <p className="text-sm text-center mt-4">
           Don't have an account?{" "}
           <a href="/signup" className="text-blue-500 hover:underline">
