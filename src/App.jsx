@@ -9,7 +9,6 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import ParticipantDetails from './components/ParticipantDetails';
 import Profile from './components/Profile'; 
-import Signup from './components/Signup'
 import '@fontsource/poppins';
 
 const App = () => {
@@ -29,7 +28,6 @@ const App = () => {
         <main>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
             <Route path="/events" element={<Events />} />
             <Route path="/events/:id" element={<EventDetails />} />
             <Route path="/admin" element={<Admin />} />
