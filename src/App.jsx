@@ -9,7 +9,7 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import ParticipantDetails from './components/ParticipantDetails';
 import Profile from './components/Profile'; 
-import SignUp from "./components/Signup";
+import SignUp from './components/Signup'
 import '@fontsource/poppins';
 
 const App = () => {
